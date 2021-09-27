@@ -1,5 +1,6 @@
 package com.ranzan.unit32evual;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import com.ranzan.unit32evual.Api.ResultsItem;
 import com.ranzan.unit32evual.Listner.ItemClickListener;
 import com.ranzan.unit32evual.Network.ApiClient;
 import com.ranzan.unit32evual.Network.Network;
+import com.ranzan.unit32evual.Service.MusicService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +39,17 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         setContentView(R.layout.activity_main);
         initViews();
         setRecyclerView();
+        playService();
+    }
+
+    private void playService() {
+
+        Intent intent = new Intent(MainActivity.this, MusicService.class);
+        startService(intent);
     }
 
     private void setRecyclerView() {
-        adapter = new Adapter(list,this);
+        adapter = new Adapter(list, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(linearLayoutManager);
