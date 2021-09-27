@@ -30,11 +30,10 @@ class DataViewHolder extends RecyclerView.ViewHolder {
         pause = v.findViewById(R.id.pauseBtn);
         play = v.findViewById(R.id.playBtn);
         delete = v.findViewById(R.id.deleteBtn);
-
     }
 
     void setData(ResultsItem item) {
-        Glide.with(trackImage).load(item.getTrackViewUrl()).placeholder(R.drawable.ic_image).into(trackImage);
+        Glide.with(trackImage).load(item.getArtworkUrl100()).placeholder(R.drawable.ic_image).into(trackImage);
         trackName.setText(item.getTrackName());
         artistName.setText(item.getArtistName());
         play.setOnClickListener(new View.OnClickListener() {

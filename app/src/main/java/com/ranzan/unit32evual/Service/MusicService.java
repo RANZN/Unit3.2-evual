@@ -14,6 +14,10 @@ import android.os.IBinder;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.ranzan.unit32evual.Api.ResultsItem;
+
+import java.io.IOException;
+
 public class MusicService extends Service {
 private MediaPlayer mediaPlayer=new MediaPlayer();
     public MusicService() {
@@ -28,7 +32,6 @@ private MediaPlayer mediaPlayer=new MediaPlayer();
     public void onCreate() {
         super.onCreate();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
             showNotificationAndStartForeGround();
         } else {
             startForeground(1, new Notification());
@@ -41,6 +44,22 @@ private MediaPlayer mediaPlayer=new MediaPlayer();
 
         }
     };
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        ResultsItem resultsItem = null;
+        if (intent != null && intent.getExtras() != null) {
+            resultsItem = (ResultsItem) intent.getSerializableExtra("data");
+        }
+        try {
+            mediaPlayer.setDataSource(resultsItem.getPreviewUrl());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return super.onStartCommand(intent, flags, startId);
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private void showNotificationAndStartForeGround() {

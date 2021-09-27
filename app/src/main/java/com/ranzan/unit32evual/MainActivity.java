@@ -2,6 +2,7 @@ package com.ranzan.unit32evual;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import com.ranzan.unit32evual.Network.ApiClient;
 import com.ranzan.unit32evual.Network.Network;
 import com.ranzan.unit32evual.Service.MusicService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,14 +41,8 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         setContentView(R.layout.activity_main);
         initViews();
         setRecyclerView();
-        playService();
     }
 
-    private void playService() {
-
-        Intent intent = new Intent(MainActivity.this, MusicService.class);
-        startService(intent);
-    }
 
     private void setRecyclerView() {
         adapter = new Adapter(list, this);
@@ -87,7 +83,9 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
 
     @Override
     public void onPlay(ResultsItem resultsItem, int position) {
-
+        Intent intent = new Intent(MainActivity.this, MusicService.class);
+       intent.putExtra("data", (Serializable) resultsItem);
+        startService(intent);
     }
 
     @Override
