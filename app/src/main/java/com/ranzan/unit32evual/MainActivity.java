@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ranzan.unit32evual.Adapter.Adapter;
 import com.ranzan.unit32evual.Api.ResponseClass;
 import com.ranzan.unit32evual.Api.ResultsItem;
+import com.ranzan.unit32evual.Listner.ItemClickListener;
 import com.ranzan.unit32evual.Network.ApiClient;
 import com.ranzan.unit32evual.Network.Network;
 
@@ -23,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ItemClickListener {
     private RecyclerView recyclerView;
     private EditText editText;
     private Button btn;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
-        adapter = new Adapter(list);
+        adapter = new Adapter(list,this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -65,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 if (response.body() != null) {
                     list = response.body().getResults();
                     adapter.updateDataList(list);
-
                 }
             }
 
@@ -74,5 +74,21 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onPlay(ResultsItem resultsItem, int position) {
+
+    }
+
+    @Override
+    public void onPause(ResultsItem resultsItem, int position) {
+
+    }
+
+    @Override
+    public void onDelete(ResultsItem resultsItem, int position) {
+        list.remove(position);
+        adapter.updateDataList(list);
     }
 }

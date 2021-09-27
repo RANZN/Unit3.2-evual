@@ -11,12 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.ranzan.unit32evual.Api.ResultsItem;
+import com.ranzan.unit32evual.Listner.ItemClickListener;
 import com.ranzan.unit32evual.R;
 
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.DataViewHolder> {
     private List<ResultsItem> list;
+    private ItemClickListener itemClickListener;
+
+    public Adapter(List<ResultsItem> list, ItemClickListener itemClickListener) {
+        this.list = list;
+        this.itemClickListener = itemClickListener;
+    }
 
     public Adapter(List<ResultsItem> list) {
         this.list = list;
@@ -26,7 +33,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.DataViewHolder> {
     @Override
     public DataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view, parent, false);
-        return new DataViewHolder(view);
+        return new DataViewHolder(view,itemClickListener);
     }
 
     @Override
@@ -49,9 +56,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.DataViewHolder> {
     public class DataViewHolder extends RecyclerView.ViewHolder {
         private ImageView trackImage, play, pause, delete;
         private TextView trackName, artistName;
+        private ItemClickListener itemClickListener;
 
-        public DataViewHolder(@NonNull View itemView) {
+        public DataViewHolder(@NonNull View itemView, ItemClickListener itemClickListener) {
             super(itemView);
+            this.itemClickListener = itemClickListener;
             initViews(itemView);
         }
 
@@ -62,12 +71,31 @@ public class Adapter extends RecyclerView.Adapter<Adapter.DataViewHolder> {
             pause = v.findViewById(R.id.pauseBtn);
             play = v.findViewById(R.id.playBtn);
             delete = v.findViewById(R.id.deleteBtn);
+
         }
 
         void setData(ResultsItem item) {
             Glide.with(trackImage).load(item.getTrackViewUrl()).placeholder(R.drawable.ic_image).into(trackImage);
             trackName.setText(item.getTrackName());
             artistName.setText(item.getArtistName());
+            play.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onPlay(item, getAdapterPosition());
+                }
+            });
+            pause.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onPause(item, getAdapterPosition());
+                }
+            });
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onDelete(item, getAdapterPosition());
+                }
+            });
         }
     }
 
