@@ -3,7 +3,7 @@ package com.ranzan.unit32evual.Api;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class Response{
+public class ResponseClass {
 
 	@SerializedName("resultCount")
 	private int resultCount;

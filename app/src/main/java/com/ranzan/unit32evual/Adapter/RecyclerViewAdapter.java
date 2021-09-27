@@ -15,7 +15,7 @@ import com.ranzan.unit32evual.Api.ResultsItem;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.DataViewHolder> {
     private List<ResultsItem> list;
 
     public RecyclerViewAdapter(List<ResultsItem> list) {
@@ -24,13 +24,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @NonNull
     @Override
-    public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view, parent, false);
-        return new RecyclerViewHolder(view);
+        return new DataViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
         holder.setData(list.get(position));
 
     }
@@ -40,11 +40,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return list.size();
     }
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    public class DataViewHolder extends RecyclerView.ViewHolder {
         private ImageView trackImage, play, pause, delete;
         private TextView trackName, artistName;
 
-        public RecyclerViewHolder(@NonNull View itemView) {
+        public DataViewHolder(@NonNull View itemView) {
             super(itemView);
             initViews(itemView);
         }

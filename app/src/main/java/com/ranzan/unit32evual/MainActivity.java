@@ -1,15 +1,17 @@
 package com.ranzan.unit32evual;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.SearchView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ranzan.unit32evual.Adapter.RecyclerViewAdapter;
+import com.ranzan.unit32evual.Api.ResponseClass;
 import com.ranzan.unit32evual.Api.ResultsItem;
 import com.ranzan.unit32evual.Network.ApiClient;
 import com.ranzan.unit32evual.Network.Network;
@@ -23,7 +25,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private SearchView searchView;
+    private EditText editText;
+    private Button btn;
     private RecyclerViewAdapter recyclerViewAdapter;
     private List<ResultsItem> list = new ArrayList<>();
 
@@ -44,8 +47,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViews() {
         recyclerView = findViewById(R.id.recyclerView);
-        searchView = findViewById(R.id.search);
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
+        editText = findViewById(R.id.search);
+        btn = findViewById(R.id.btnSearch);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callApi();
@@ -55,18 +59,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void callApi() {
         ApiClient apiClient = Network.getRetrofitInstance().create(ApiClient.class);
-        apiClient.getData(searchView.getQuery().toString()).enqueue(new Callback<Response>() {
+        apiClient.getData(editText.getText().toString()).enqueue(new Callback<ResponseClass>() {
             @Override
-            public void onResponse(Call<Response> call, Response<Response> response) {
+            public void onResponse(Call<ResponseClass> call, Response<ResponseClass> response) {
                 if (response.body() != null) {
-                    Log.d("abc", response.body().toString());
+                    list = response.body().getResults();
+                    recyclerViewAdapter.notifyDataSetChanged();
                 }
-
             }
 
             @Override
-            public void onFailure(Call<Response> call, Throwable t) {
-
+            public void onFailure(Call<ResponseClass> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
