@@ -2,7 +2,10 @@ package com.ranzan.unit32evual.Api;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ResultsItem{
+import java.io.Serializable;
+import java.lang.annotation.Annotation;
+
+public class ResultsItem implements Serializable {
 
 	@SerializedName("artworkUrl100")
 	private String artworkUrl100;
@@ -297,4 +300,5 @@ public class ResultsItem{
 	public String getShortDescription(){
 		return shortDescription;
 	}
+
 }
