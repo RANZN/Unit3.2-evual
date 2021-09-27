@@ -44,11 +44,12 @@ public class MusicService extends Service {
         if (intent != null && intent.getExtras() != null) {
             if (intent.getIntExtra("play", 0) == 1)
                 resultsItem = (ResultsItem) intent.getSerializableExtra("data");
-
         }
         try {
 
             if (intent.getIntExtra("play", 0) == 1) {
+                if(mediaPlayer.isPlaying())
+                    mediaPlayer.stop();
                 mediaPlayer.setDataSource(resultsItem.getPreviewUrl());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
