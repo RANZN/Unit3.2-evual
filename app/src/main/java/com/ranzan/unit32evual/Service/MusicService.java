@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.IBinder;
 
 import androidx.annotation.RequiresApi;
@@ -20,9 +19,9 @@ import com.ranzan.unit32evual.Api.ResultsItem;
 import java.io.IOException;
 
 public class MusicService extends Service {
-private MediaPlayer mediaPlayer=new MediaPlayer();
-    public MusicService() {
-    }
+    private MediaPlayer mediaPlayer = new MediaPlayer();
+    private ResultsItem resultsItem = null;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -39,25 +38,29 @@ private MediaPlayer mediaPlayer=new MediaPlayer();
         }
     }
 
-    Runnable playMusic = new Runnable() {
-        @Override
-        public void run() {
-
-        }
-    };
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        ResultsItem resultsItem = null;
         if (intent != null && intent.getExtras() != null) {
-            resultsItem = (ResultsItem) intent.getSerializableExtra("data");
+            if (intent.getIntExtra("play", 0) == 1)
+                resultsItem = (ResultsItem) intent.getSerializableExtra("data");
+
         }
         try {
-            {
+
+            if (intent.getIntExtra("play", 0) == 1) {
                 mediaPlayer.setDataSource(resultsItem.getPreviewUrl());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
+
+            } else if (intent.getIntExtra("play", 0) == 2) {
+                if (mediaPlayer.isPlaying())
+                    mediaPlayer.pause();
+            } else if (intent.getIntExtra("play", 0) == 3) {
+                if (mediaPlayer.isPlaying())
+                    mediaPlayer.stop();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,8 +80,9 @@ private MediaPlayer mediaPlayer=new MediaPlayer();
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         Notification notification = notificationBuilder.setOngoing(true)
-                .setContentTitle("App is running in background")
+                .setContentTitle("Title")
                 .setContentText("Hey music is playing")
+                .setContentTitle("title")
                 .setPriority(NotificationManager.IMPORTANCE_MIN)
                 .setCategory(Notification.CATEGORY_SERVICE)
                 .build();

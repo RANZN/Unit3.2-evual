@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     @Override
     public void onPause(ResultsItem resultsItem, int position) {
         Intent intent = new Intent(MainActivity.this, MusicService.class);
-        intent.putExtra("data", (Serializable) resultsItem);
         intent.putExtra("play", 2);
         startService(intent);
     }
@@ -100,5 +99,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     public void onDelete(ResultsItem resultsItem, int position) {
         list.remove(position);
         adapter.updateDataList(list);
+
+
     }
 }
