@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 
 import androidx.annotation.RequiresApi;
@@ -52,9 +53,11 @@ private MediaPlayer mediaPlayer=new MediaPlayer();
             resultsItem = (ResultsItem) intent.getSerializableExtra("data");
         }
         try {
-            mediaPlayer.setDataSource(resultsItem.getPreviewUrl());
-            mediaPlayer.prepare();
-            mediaPlayer.start();
+            {
+                mediaPlayer.setDataSource(resultsItem.getPreviewUrl());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,5 +83,10 @@ private MediaPlayer mediaPlayer=new MediaPlayer();
                 .setCategory(Notification.CATEGORY_SERVICE)
                 .build();
         startForeground(2, notification);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

@@ -83,13 +83,17 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     @Override
     public void onPlay(ResultsItem resultsItem, int position) {
         Intent intent = new Intent(MainActivity.this, MusicService.class);
-       intent.putExtra("data", (Serializable) resultsItem);
+        intent.putExtra("data", (Serializable) resultsItem);
+        intent.putExtra("play", 1);
         startService(intent);
     }
 
     @Override
     public void onPause(ResultsItem resultsItem, int position) {
-
+        Intent intent = new Intent(MainActivity.this, MusicService.class);
+        intent.putExtra("data", (Serializable) resultsItem);
+        intent.putExtra("play", 2);
+        startService(intent);
     }
 
     @Override
