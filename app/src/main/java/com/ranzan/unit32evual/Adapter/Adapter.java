@@ -10,15 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.ranzan.unit32evual.R;
 import com.ranzan.unit32evual.Api.ResultsItem;
+import com.ranzan.unit32evual.R;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.DataViewHolder> {
+public class Adapter extends RecyclerView.Adapter<Adapter.DataViewHolder> {
     private List<ResultsItem> list;
 
-    public RecyclerViewAdapter(List<ResultsItem> list) {
+    public Adapter(List<ResultsItem> list) {
         this.list = list;
     }
 
@@ -31,13 +31,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
-        holder.setData(list.get(position));
+        ResultsItem resultsItem = list.get(position);
+        holder.setData(resultsItem);
 
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void updateDataList(List<ResultsItem> list) {
+        this.list = list;
+        notifyDataSetChanged();
     }
 
     public class DataViewHolder extends RecyclerView.ViewHolder {
@@ -64,4 +70,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             artistName.setText(item.getArtistName());
         }
     }
+
 }

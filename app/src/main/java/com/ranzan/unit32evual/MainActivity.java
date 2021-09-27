@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ranzan.unit32evual.Adapter.RecyclerViewAdapter;
+import com.ranzan.unit32evual.Adapter.Adapter;
 import com.ranzan.unit32evual.Api.ResponseClass;
 import com.ranzan.unit32evual.Api.ResultsItem;
 import com.ranzan.unit32evual.Network.ApiClient;
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private EditText editText;
     private Button btn;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private Adapter adapter;
     private List<ResultsItem> list = new ArrayList<>();
 
     @Override
@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
-        recyclerViewAdapter = new RecyclerViewAdapter(list);
+        adapter = new Adapter(list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
@@ -64,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseClass> call, Response<ResponseClass> response) {
                 if (response.body() != null) {
                     list = response.body().getResults();
-                    recyclerViewAdapter.notifyDataSetChanged();
+                    adapter.updateDataList(list);
+
                 }
             }
 
