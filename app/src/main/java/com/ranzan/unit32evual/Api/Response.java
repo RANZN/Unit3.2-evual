@@ -1,4 +1,4 @@
-package com.ranzan.unit32evual.api;
+package com.ranzan.unit32evual.Api;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;

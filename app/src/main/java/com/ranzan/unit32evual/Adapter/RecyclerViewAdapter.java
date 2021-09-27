@@ -1,5 +1,6 @@
-package com.ranzan.unit32evual.adapter;
+package com.ranzan.unit32evual.Adapter;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -8,24 +9,35 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.ranzan.unit32evual.R;
-import com.ranzan.unit32evual.api.ResultsItem;
+import com.ranzan.unit32evual.Api.ResultsItem;
+
+import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
+    private List<ResultsItem> list;
+
+    public RecyclerViewAdapter(List<ResultsItem> list) {
+        this.list = list;
+    }
+
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view, parent, false);
+        return new RecyclerViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
+        holder.setData(list.get(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return list.size();
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -47,7 +59,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         void setData(ResultsItem item) {
-
+            Glide.with(trackImage).load(item.getTrackViewUrl()).placeholder(R.drawable.ic_image).into(trackImage);
+            trackName.setText(item.getTrackName());
+            artistName.setText(item.getArtistName());
         }
     }
 }
