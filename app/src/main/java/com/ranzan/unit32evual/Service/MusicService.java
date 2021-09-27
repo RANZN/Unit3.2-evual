@@ -48,8 +48,7 @@ public class MusicService extends Service {
         try {
 
             if (intent.getIntExtra("play", 0) == 1) {
-                if(mediaPlayer.isPlaying())
-                    mediaPlayer.stop();
+
                 mediaPlayer.setDataSource(resultsItem.getPreviewUrl());
                 mediaPlayer.prepare();
                 mediaPlayer.start();
